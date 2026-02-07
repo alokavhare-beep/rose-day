@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Rose Day My BBG 🥹😝💋🌹💕!🌹</title>
+    <style>
+        body {
+            background-color: #fff0f3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+        }
+
+        .container {
+            z-index: 10;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.2);
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        h1 { 
+            color: #ff4757; 
+            margin-bottom: 10px; 
+            font-size: 1.8rem;
+        }
+        
+        p { 
+            color: #2f3542; 
+            font-size: 1.1rem; 
+            line-height: 1.6;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: #57606f;
+            margin-top: 15px;
+            display: block;
+        }
+
+        .main-rose {
+            font-size: 80px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 5px 15px rgba(255, 71, 87, 0.3));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .btn {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+        }
+
+        .btn:hover { 
+            background-color: #ff6b81; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Floating background roses */
+        .bg-rose {
+            position: absolute;
+            top: -50px;
+            font-size: 24px;
+            user-select: none;
+            z-index: 1;
+            /* Animation is set in JS to randomize duration */
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Custom Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 85%;
+            transform: scale(0.7);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .heart {
+            color: #ff4757;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="main-rose">🌹</div>
+        <h1>Happy Rose Day, Meri Wifeyyy Jii 🌹!</h1>
+        <p>Pss Aake Nhi De Skta Toh Kya Hua 🤭😝, Yee Virtual 🌹 Hi Lelo 👉🏻👈🏻.</p>
+        <span class="quote">"Har Rose 🌹 Aapki Yaad Aati Hai Jii🥹👉🏻👈🏻 So Happy Rose Day 😝🌹🥹."</span>
+        <br>
+        <button class="btn" onclick="celebrate()">Click for a Surprise!</button>
+    </div>
+
+    <!-- Custom Modal -->
+    <div class="modal-overlay" id="surpriseModal">
+        <div class="modal-content">
+            <div class="heart">❤️</div>
+            <h2 style="color: #ff4757; margin-top:0;">Iiiii Loveee Uuuu Myyyy BBG 🤭💕💋🌹!</h2>
+            <p style="margin-bottom: 20px;">Agli Baar Milege Toh Bura Buke Hi De Dunga Btw Buke Ki Spelling Noi Aati 😋 Ummmmmmmmmhhhhhhhaaaaaaaaaaaaaaaaaaaaaaa Jiii 🥹💋💋💋💋💋💋💋💋💋!</p>
+            <button class="btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Background falling roses
+        function createRose(isCelebration = false) {
+            const rose = document.createElement('div');
+            rose.classList.add('bg-rose');
+            rose.innerHTML = Math.random() > 0.5 ? '🌹' : '🌷'; // Mix of flowers
+            rose.style.left = Math.random() * 100 + 'vw';
+            
+            // Randomize animation duration
+            const duration = Math.random() * 3 + 3; // between 3s and 6s
+            rose.style.animation = fall ${duration}s linear forwards;
+            
+            rose.style.opacity = Math.random() * 0.5 + 0.3;
+            rose.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            
+            document.body.appendChild(rose);
+
+            // Remove after animation finishes
+            setTimeout(() => { rose.remove(); }, duration * 1000);
+        }
+
+        // Create a background rose every 400ms
+        setInterval(() => createRose(), 400);
+
+        function celebrate() {
+            const modal = document.getElementById('surpriseModal');
+            modal.classList.add('active');
+            
+            // Burst of roses
+            for(let i=0; i<30; i++) {
+                setTimeout(() => createRose(true), i * 100);
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('surpriseModal');
+            modal.classList.remove('active');
+        }
+        
+        // Close modal if clicking outside
+        document.getElementById('surpriseModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
